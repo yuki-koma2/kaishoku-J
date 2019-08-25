@@ -1,9 +1,7 @@
 <template>
-    <section class="calculation">
+    <section class="calculation Calc">
         <h1>calc</h1>
-        <form
-                id="calc-form"
-        >
+
             <div v-if="errors.length">
                 <p>Please correct the following error(s):</p>
                 <ul>
@@ -36,9 +34,12 @@
                     type="button"
                     value="Submit"
                     id="calc--submit"
-                    v-on:click="this.checkInputDataCalc()"
+                    v-on:click="checkInputDataCalc"
             >
-        </form>
+
+        <div class="result" v-if="this.isCalced">
+            ok
+        </div>
     </section>
 </template>
 
@@ -103,28 +104,13 @@
                 ],
                 errors: [],
                 realValue: 0,
+                isCalced:false,
             }
         },
-        created: function () {
-            // let i = 0;
-            console.log("created");
-            // while (i < 5){
-            // console.log(i);
-            //     this.playerData.name = this.members[i];
-            //     console.log(this.members[i]);
-            //     console.log(this.playerData.name);
-            //     this.playerData.id = i;
-            //     console.log(this.playerData);
-            //     this.players.push(Object.create(this.playerData));
-            //     console.log(this.players);
-            //     i++;
-            // }
-        },
-        method: {
-            checkInputDataCalc: function (e) {
-                e.preventDefault();
+        methods: {
+            checkInputDataCalc: function () {
+                console.log("ok");
                 this.calcAll();
-                // console.trace(this.calcAll());
             },
             calcAll: function () {
                 this.players.forEach(player => {
@@ -133,6 +119,7 @@
                     }
                 );
                 this.createRank();
+                this.isCalced = true;
             },
             createRank: function () {
                 this.players.sort((a, b) => {
@@ -143,7 +130,7 @@
                 console.table(this.players);
                 this.players.forEach((player,index) => {
                     console.log(index);
-                    player.rank = index;
+                    player.rank = index + 1;
                     console.log(player);
                 })
             },
